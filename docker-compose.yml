@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    container_name: clientflow_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./.env:/var/www/.env
+    networks:
+      - clientflow
+
+  webserver:
+    image: nginx:alpine
+    container_name: clientflow_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - clientflow
+    depends_on:
+      - app
+
+networks:
+  clientflow:
+    driver: bridge
