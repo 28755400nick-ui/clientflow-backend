@@ -7,10 +7,10 @@ services:
     volumes:
       - .:/var/www
       - ./.env:/var/www/.env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       - clientflow
+    depends_on:
+      - db
 
   webserver:
     image: nginx:alpine
@@ -26,6 +26,24 @@ services:
     depends_on:
       - app
 
+  db:
+    image: mysql:8.0
+    container_name: clientflow_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: clientflow
+      MYSQL_USER: clientflow_user
+      MYSQL_PASSWORD: clientflow123!
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - clientflow
+
 networks:
   clientflow:
     driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
