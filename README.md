@@ -2,6 +2,8 @@
 
 Backend de ClientFlow — sistema de gestión de clientes construido con Laravel 12, MySQL y Docker.
 
+> Proyecto de portafolio — Arquitectura distribuida Full Stack con CI/CD automatizado.
+
 ## Stack
 
 - **PHP** 8.2
